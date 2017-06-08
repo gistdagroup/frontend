@@ -9,9 +9,8 @@ node_js:
   - '7'
 env:
   - NODE_ENV=production
-before_install:
-  - npm install -g @angular/cli
 before_script:
+  - npm install -g @angular/cli
   - npm install
   - npm run build:prod
 script:
