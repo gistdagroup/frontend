@@ -1,4 +1,5 @@
 # Gistda Frontend
+[![Build Status](https://travis-ci.org/gitsda/frontend.svg?branch=master)](https://travis-ci.org/gitsda/frontend)
 
 ## Development server
 
