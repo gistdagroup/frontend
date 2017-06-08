@@ -10,6 +10,7 @@ node_js:
 env:
   - NODE_ENV=production
 install:
+  - git clean -df
   - npm install -g @angular/cli
   - npm install
 before_script:
