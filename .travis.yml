@@ -9,9 +9,10 @@ node_js:
   - '7'
 env:
   - NODE_ENV=production
-before_script:
+install:
   - npm install -g @angular/cli
   - npm install
+before_script:
   - npm run build:prod
 script:
   - docker build -t gistda/web:$TRAVIS_BUILD_NUMBER .
