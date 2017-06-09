@@ -9,15 +9,13 @@ import { CarLocation } from './car-location';
 })
 
 export class GmapComponent implements OnInit {
+    title = "Live";
     token = localStorage.getItem("gistda_token");
     urlToChangeStream = 'http://gps.gistda.org:8080/api/locations/change-stream?_format=event-source&access_token=';
-    latA: number = 13.102387838333334;
-    lngA: number = 100.92743411000001;
-    zoom: number = 15;
+    latFirst: number = 13.102387838333334;
+    lngFirst: number = 100.92743411000001;
 
     carLocations = [];
-
-    strokeColors = ["#CC33FF", "#451348", "#520101", "#020152", "#013c52", "#01523f", "#245201", "#465201", "#523d01", "#522601"]
 
     constructor() { }
 
@@ -34,11 +32,9 @@ export class GmapComponent implements OnInit {
     }
 
     private setMapMarkers(event) {
-      // console.log(event.data.uuid, ": ", event.data.coord);
-
       if(!this.carLocations.some((x) => x.uuid == event.data.uuid)) {
-        this.latA = event.data.coord.lat;
-        this.lngA = event.data.coord.lng;
+        this.latFirst = event.data.coord.lat;
+        this.lngFirst = event.data.coord.lng;
 
         let newLocation = new CarLocation();
         newLocation.uuid = event.data.uuid

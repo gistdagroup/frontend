@@ -9,20 +9,19 @@ import { CarLocation } from '../gmap/car-location';
   styleUrls: ['./playback.component.scss']
 })
 export class PlaybackComponent implements OnInit {
+  title:string = "Playback";
   carLocations = [];
-  latA: number = 13.102387838333334;
-  lngA: number = 100.92743411000001;
-  zoom: number = 15;
-  strokeColors = ["#CC33FF", "#451348", "#520101", "#020152", "#013c52", "#01523f", "#245201", "#465201", "#523d01", "#522601"];
+  latFirst: number = 13.102387838333334;
+  lngFirst: number = 100.92743411000001;
 
   constructor(private service: SearchPlaybackService) { }
+
   ngOnInit() {
     this.service.search().subscribe((locations) => {
-      // console.log(locations);
       locations.map(location => {
         if(!this.carLocations.some((x) => x.uuid == location.uuid)) {
-          this.latA = location.coord.lat;
-          this.lngA = location.coord.lng;
+          this.latFirst = location.coord.lat;
+          this.lngFirst = location.coord.lng;
 
           let newLocation = new CarLocation();
           newLocation.uuid = location.uuid
@@ -35,8 +34,6 @@ export class PlaybackComponent implements OnInit {
           })
         }
       })
-
-      console.log(this.carLocations);
     });
   }
 
