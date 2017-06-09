@@ -1,3 +1,21 @@
-<p>
-  playback works!
-</p>
+<div>Play Back</div>
+<ul *ngFor="let carLocation of carLocations">
+  <li>{{carLocation.uuid}}</li>
+</ul>
+
+  <agm-map [latitude]="latA" [longitude]="lngA" [zoom]="zoom">
+
+      <agm-marker *ngFor="let carLocation of carLocations"
+        [label]="carLocation?.uuid"
+        [latitude]="carLocation?.coords[carLocation?.coords.length-1].lat"
+        [longitude]="carLocation?.coords[carLocation?.coords.length-1].lng">
+      </agm-marker>
+
+      <agm-polyline *ngFor="let carLocation of carLocations; let i = index" [strokeColor]="strokeColors[i]">
+         <agm-polyline-point *ngFor="let coord of carLocation?.coords"
+          [latitude]="coord?.lat"
+          [longitude]="coord?.lng">
+         </agm-polyline-point>
+      </agm-polyline>
+
+  </agm-map>

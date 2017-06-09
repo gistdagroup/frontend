@@ -2,4 +2,8 @@
   {{title}}
 </h1>
 
+<nav>
+    <a *ngIf="token" routerLink="/gmap">Live</a>
+    <a *ngIf="token" routerLink="/playback">Play Back</a>
+  </nav>
 <router-outlet></router-outlet>
