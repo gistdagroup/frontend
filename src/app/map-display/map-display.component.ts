@@ -18,4 +18,10 @@ export class MapDisplayComponent {
   selectedBox: CarLocation;
   constructor() { }
 
+  onSelected(carLocation: CarLocation) {
+    this.selectedBox = carLocation
+    this.latFirst = carLocation.coords[0].lat
+    this.lngFirst = carLocation.coords[0].lng
+  }
+
 }

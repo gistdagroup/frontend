@@ -1,7 +1,11 @@
 <div>{{title}}</div>
 
-<ul *ngFor="let carLocation of carLocations">
-  <li>{{carLocation.uuid}}</li>
+<ul class="devices">
+  <li *ngFor="let carLocation of carLocations" (click)="onSelected(carLocation)"
+      [class.selected]="carLocation === selectedBox">
+    <span class="type">{{carLocation.type}}</span>
+    <span>{{carLocation.uuid}}</span>
+  </li>
 </ul>
 
 <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
