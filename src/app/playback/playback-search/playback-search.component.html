@@ -1,0 +1,5 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()" >
+    <date-picker [(ngModel)]="dateFrom" name="dateFrom" mode="datetime"></date-picker>
+    <date-picker [(ngModel)]="dateTo" name="dateTo" mode="datetime"></date-picker>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>

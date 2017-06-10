@@ -1,3 +1,5 @@
+<app-playback-search (carLocations)="onSetData($event)"></app-playback-search>
+
 <app-map-display *ngIf="carLocations"
   [carLocations]="carLocations"
   [title]="title">

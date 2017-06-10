@@ -10,8 +10,8 @@ export class SearchPlaybackService {
 
   constructor(private http: Http) { }
 
-  search(): Observable<any> {
-    let filter = '{"where":{"date":{"between":["2017-07-05T02:00:00.000Z","2017-07-05T05:00:00.000Z"]}}}';
+  search(dateFrom, dateTo): Observable<any> {
+    let filter = `{"where":{"date":{"between":["${dateFrom}","${dateTo}"]}}}`;
     let token = localStorage.getItem("gistda_token");
     let url = this.searchUrl
         .replace(':{filter}', filter)
