@@ -1,4 +1,4 @@
-export class CarLocation {
+export class Location {
   type: string
   uuid: string
   coords: = []

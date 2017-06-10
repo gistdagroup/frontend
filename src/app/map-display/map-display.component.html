@@ -1,23 +1,23 @@
 <div>{{title}}</div>
 
 <ul class="devices">
-  <li *ngFor="let carLocation of carLocations" (click)="onSelected(carLocation)"
-      [class.selected]="carLocation === selectedBox">
-    <span class="type">{{carLocation.type}}</span>
-    <span>{{carLocation.uuid}}</span>
+  <li *ngFor="let location of locations" (click)="onSelected(location)"
+      [class.selected]="location === selectedBox">
+    <span class="type">{{location.type}}</span>
+    <span>{{location.uuid}}</span>
   </li>
 </ul>
 
 <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
 
-    <agm-marker *ngFor="let carLocation of carLocations"
-      [label]="carLocation?.uuid"
-      [latitude]="carLocation?.coords[carLocation?.coords.length-1].lat"
-      [longitude]="carLocation?.coords[carLocation?.coords.length-1].lng">
+    <agm-marker *ngFor="let location of locations"
+      [label]="location?.uuid"
+      [latitude]="location?.coords[location?.coords.length-1].lat"
+      [longitude]="location?.coords[location?.coords.length-1].lng">
     </agm-marker>
 
-    <agm-polyline *ngFor="let carLocation of carLocations; let i = index" [strokeColor]="strokeColors[i]">
-       <agm-polyline-point *ngFor="let coord of carLocation?.coords"
+    <agm-polyline *ngFor="let location of locations; let i = index" [strokeColor]="strokeColors[i]">
+       <agm-polyline-point *ngFor="let coord of location?.coords"
         [latitude]="coord?.lat"
         [longitude]="coord?.lng">
        </agm-polyline-point>

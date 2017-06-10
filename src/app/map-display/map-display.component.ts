@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CarLocation } from '../gmap/car-location';
+import { Location } from '../location';
 
 @Component({
   selector: 'app-map-display',
@@ -7,7 +7,7 @@ import { CarLocation } from '../gmap/car-location';
   styleUrls: ['./map-display.component.scss']
 })
 export class MapDisplayComponent {
-  @Input() carLocations = [];
+  @Input() locations = [];
   @Input() title: string = "Map";
 
   zoom: number = 15;
@@ -15,13 +15,13 @@ export class MapDisplayComponent {
   latFirst: number = 13.102387838333334;
   lngFirst: number = 100.92743411000001;
   hasLocation: boolean = false;
-  selectedBox: CarLocation;
+  selectedBox: Location;
   constructor() { }
 
-  onSelected(carLocation: CarLocation) {
-    this.selectedBox = carLocation
-    this.latFirst = carLocation.coords[0].lat
-    this.lngFirst = carLocation.coords[0].lng
+  onSelected(location: Location) {
+    this.selectedBox = location
+    this.latFirst = location.coords[0].lat
+    this.lngFirst = location.coords[0].lng
   }
 
 }

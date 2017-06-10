@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { CarLocation } from './car-location';
+import { Location } from '../location';
 
 @Component({
     selector: 'app-gmap',
@@ -12,7 +12,7 @@ export class GmapComponent implements OnInit {
     title = "Live";
     token = localStorage.getItem("gistda_token");
     urlToChangeStream = 'http://gps.gistda.org:8080/api/locations/change-stream?_format=event-source&access_token=';
-    carLocations = [];
+    locations = [];
 
     constructor() { }
 
@@ -29,14 +29,14 @@ export class GmapComponent implements OnInit {
     }
 
     private setMapMarkers(event) {
-      if(!this.carLocations.some((x) => x.uuid == event.data.uuid)) {
-        let newLocation = new CarLocation();
+      if(!this.locations.some((x) => x.uuid == event.data.uuid)) {
+        let newLocation = new Location();
         newLocation.uuid = event.data.uuid
         newLocation.type = event.data.type
         newLocation.coords.push({ lat: event.data.coord.lat, lng: event.data.coord.lng })
-        this.carLocations.push(newLocation)
+        this.locations.push(newLocation)
       } else {
-        this.carLocations.filter((x) => x.uuid == event.data.uuid).map((x) => {
+        this.locations.filter((x) => x.uuid == event.data.uuid).map((x) => {
           x.coords.push({ lat: event.data.coord.lat, lng: event.data.coord.lng })
         })
       }
