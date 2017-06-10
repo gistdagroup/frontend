@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 @Component({
-  selector: 'app-playback-search',
-  templateUrl: './playback-search.component.html',
-  styleUrls: ['./playback-search.component.scss']
+  selector: 'app-search-form',
+  templateUrl: './search-form.component.html',
+  styleUrls: ['./search-form.component.scss']
 })
-export class PlaybackSearchComponent {
+export class SearchFormComponent {
   dateFrom: Date;
   dateTo: Date;
   @Output() payloads = new EventEmitter<any>();

@@ -5,7 +5,7 @@ import { SearchPlaybackService } from './search-playback.service';
 import { HttpModule } from '@angular/http';
 import { MapDisplayModule } from '../map-display/map-display.module';
 import { FormsModule } from '@angular/forms';
-import { PlaybackSearchComponent } from './playback-search/playback-search.component';
+import { SearchFormComponent } from './search-form/search-form.component';
 import { DatePickerModule } from 'angular-io-datepicker';
 import { OverlayModule } from 'angular-io-overlay';
 
@@ -18,7 +18,7 @@ import { OverlayModule } from 'angular-io-overlay';
     DatePickerModule,
     FormsModule
   ],
-  declarations: [PlaybackComponent, PlaybackSearchComponent],
+  declarations: [PlaybackComponent, SearchFormComponent],
   providers: [SearchPlaybackService],
   exports: [
     PlaybackComponent
