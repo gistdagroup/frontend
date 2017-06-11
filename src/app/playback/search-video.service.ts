@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Headers, Http }       from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class SearchPlaybackService {
-  private searchUrl: string = 'http://gps.gistda.org:8080/api/locations?filter=:{filter}&access_token=:{access_token}';
-  private headers: Headers = new Headers({'Content-Type': 'application/json'});
+export class SearchVideoService {
+  searchUrl: string = `${environment.api.baseUrl}${environment.api.searchVideosUrl}`;
+  headers: Headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) { }
 
   search(payload: any): Observable<any> {
     let filter = {
       "where": {
-        "date": payload
+        "createdAt": payload
       }
     }
+
     let token = localStorage.getItem("gistda_token");
     let url = this.searchUrl
         .replace(':{filter}', JSON.stringify(filter))
         .replace(':{access_token}', token);
 
-    return this.http
-       .get(url)
+    return this.http.get(url)
        .map(res => res.json());
   }
 
@@ -30,4 +31,5 @@ export class SearchPlaybackService {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
+
 }

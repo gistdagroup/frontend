@@ -13,14 +13,10 @@ export class SearchFormComponent {
 
   onSubmit() {
     let payload = {
-      "where": {
-        "date": {
-          "between": [
-            this.dateFrom.toISOString(),
-            this.dateTo.toISOString()
-          ]
-        }
-      }
+      "between": [
+        this.dateFrom.toISOString(),
+        this.dateTo.toISOString()
+      ]
     }
 
     this.payloads.emit(payload);

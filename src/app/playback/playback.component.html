@@ -4,3 +4,15 @@
   [locations]="locations"
   [title]="title">
 </app-map-display>
+
+<div *ngIf="videos">
+  <h1>video</h1>
+  <ul class="devices">
+    <li *ngFor="let video of videos" (click)="onClickviewVideo(video)">
+      <span class="type">{{video.id}}</span>
+      <span>{{video.uuid}}</span>
+    </li>
+  </ul>
+
+  <app-video-display *ngIf="selectedVideo" [videoUrl]="selectedVideo?.url"></app-video-display>
+</div>

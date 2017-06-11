@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '../location';
 import { SearchPlaybackService } from './search-playback.service';
+import { SearchVideoService } from './search-video.service';
 
 @Component({
   selector: 'app-playback',
@@ -10,11 +11,14 @@ import { SearchPlaybackService } from './search-playback.service';
 export class PlaybackComponent {
   title:string = "Playback";
   locations: Location[] = [];
+  videos = [];
+  selectedVideo: any;
 
-  constructor(private service: SearchPlaybackService) { }
+  constructor(private searchPlaybackService: SearchPlaybackService,
+    private seachVideoService: SearchVideoService) {}
 
   onSearch(payload: any) {
-    this.service.search(JSON.stringify(payload)).subscribe((locations) => {
+    this.searchPlaybackService.search(payload).subscribe((locations) => {
       locations.map(location => {
         if(!this.locations.some((x) => x.uuid == location.uuid)) {
           let newLocation = new Location();
@@ -29,6 +33,19 @@ export class PlaybackComponent {
         }
       })
     });
+
+    this.seachVideoService.search(payload)
+    .map(videos => {
+      videos.map(video => video.url = `http://gps.gistda.org:1935/vod/mp4:${video.path}/manifest.mpd`);
+      return videos;
+    })
+    .subscribe((videos) => {
+      this.videos = videos
+    })
+  }
+
+  onClickviewVideo(video: any) {
+    this.selectedVideo = video;
   }
 
 }

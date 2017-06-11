@@ -4,5 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: {
+    baseUrl: "http://gps.gistda.org:8080/api/",
+    searchLocationsUrl: "locations?filter=:{filter}&access_token=:{access_token}",
+    searchVideosUrl: "videos?filter=:{filter}&access_token=:{access_token}",
+  }
 };
+
+// : string = 'http://gps.gistda.org:8080/api/locations?filter=:{filter}&access_token=:{access_token}';
