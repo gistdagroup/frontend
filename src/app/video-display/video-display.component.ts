@@ -20,7 +20,7 @@ export class VideoDisplayComponent implements OnChanges {
     player.ready(function() {
       player.src({
         src: videoUrl,
-        type: 'application/dash+xml'
+        type: 'application/x-mpegURL'
       });
 
       player.play();

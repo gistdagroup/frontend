@@ -2,11 +2,13 @@
 
 <ul class="devices">
   <li *ngFor="let location of locations" (click)="onSelected(location)"
-      [class.selected]="location === selectedBox">
+      [class.selected]="location === selectedLocation">
     <span class="type">{{location.type}}</span>
     <span>{{location.uuid}}</span>
   </li>
 </ul>
+
+<app-video-display *ngIf="selectedLocation?.liveUrl" [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
 
 <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
 

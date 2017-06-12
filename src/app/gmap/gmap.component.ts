@@ -33,6 +33,9 @@ export class GmapComponent implements OnInit {
         let newLocation = new Location();
         newLocation.uuid = event.data.uuid
         newLocation.type = event.data.type
+        if(event.data.type == "ANDROID") {
+          newLocation.liveUrl = `http://gps.gistda.org:1935/live/${event.data.uuid}/playlist.m3u8`
+        }
         newLocation.coords.push({ lat: event.data.coord.lat, lng: event.data.coord.lng })
         this.locations.push(newLocation)
       } else {

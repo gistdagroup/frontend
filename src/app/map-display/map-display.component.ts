@@ -15,11 +15,11 @@ export class MapDisplayComponent {
   latFirst: number = 13.102387838333334;
   lngFirst: number = 100.92743411000001;
   hasLocation: boolean = false;
-  selectedBox: Location;
+  selectedLocation: Location;
   constructor() { }
 
   onSelected(location: Location) {
-    this.selectedBox = location
+    this.selectedLocation = location
     this.latFirst = location.coords[0].lat
     this.lngFirst = location.coords[0].lng
   }
