@@ -37,7 +37,6 @@ export class PlaybackComponent {
     this.searchPlaybackService.search(payload)
     .subscribe((locations) => {
       this.locationsFromService = locations
-      console.log(locations);
 
       let timer = setInterval(function () {
         mappingLocationByTime();
@@ -95,7 +94,7 @@ export class PlaybackComponent {
   }
 
   private findLocationBetweenDate = (data, start, end) => {
-    return data.filter(location => moment(location.date).isBetween(start, end))
+    return data.filter(location => moment(location.date).isBetween(start, end, null, '[]'))
   }
 
 }
