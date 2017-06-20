@@ -12,14 +12,12 @@ export class SearchFormComponent {
   constructor() { }
 
   onSubmit() {
-    let payload = {
-      "between": [
-        this.dateFrom.toISOString(),
-        this.dateTo.toISOString()
-      ]
+    let criteria = {
+      dateFrom: this.dateFrom.seconds(0),
+      dateTo: this.dateTo.seconds(0)
     }
 
-    this.payloads.emit(payload);
+    this.payloads.emit(criteria);
   }
 
 }
