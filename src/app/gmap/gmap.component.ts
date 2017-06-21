@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Location } from '../location';
 
@@ -8,20 +8,24 @@ import { Location } from '../location';
     styleUrls: ['./gmap.component.scss']
 })
 
-export class GmapComponent implements OnInit {
+export class GmapComponent implements OnInit, OnDestroy {
     title = "Live";
     token = localStorage.getItem("gistda_token");
     urlToChangeStream = 'http://gps.gistda.org:8080/api/locations/change-stream?_format=event-source&access_token=';
     locations = [];
-
+    serverConnection: EventSource;
     constructor() { }
 
     ngOnInit() {
         let url = `${this.urlToChangeStream}${this.token}`;
-        let serverConnection = new EventSource(url);
-        serverConnection.addEventListener("data", (event) => {this.handleMessage(event, this)});
-        serverConnection.addEventListener("error", this.handleError);
-        serverConnection.addEventListener("open", this.handleOpen);
+        this.serverConnection = new EventSource(url);
+        this.serverConnection.addEventListener("data", (event) => {this.handleMessage(event, this)});
+        this.serverConnection.addEventListener("error", this.handleError);
+        this.serverConnection.addEventListener("open", this.handleOpen);
+    }
+
+    ngOnDestroy() {
+      this.serverConnection.close();
     }
 
     handleMessage(event, self) {
