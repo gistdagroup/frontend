@@ -1,15 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '../location';
 import { SearchPlaybackService } from './search-playback.service';
 import { SearchVideoService } from './search-video.service';
 import * as moment from 'moment';
+import { Observable }           from 'rxjs/Observable';
+import { Subject }           from 'rxjs/Subject';
+
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/observable/never';
+import 'rxjs/add/observable/interval';
 
 @Component({
   selector: 'app-playback',
   templateUrl: './playback.component.html',
   styleUrls: ['./playback.component.scss']
 })
-export class PlaybackComponent {
+export class PlaybackComponent implements OnInit {
   title:string = "Playback";
   locations: Location[] = [];
   locationsFromService = [];
@@ -17,6 +27,11 @@ export class PlaybackComponent {
   selectedVideo: any;
   countLoop: number = 0;
   totalLoop: number = 0;
+  simmulationTime: Date;
+
+  private searchTerms = new Subject<any>();
+  private isPlay: Subject<boolean> = new Subject<boolean>();
+  currentCriteria: any;
 
   constructor(private searchPlaybackService: SearchPlaybackService,
     private seachVideoService: SearchVideoService) {}
@@ -30,38 +45,56 @@ export class PlaybackComponent {
     }
   }
 
-  onSearch(criteria: any) {
-    let payload = this.initPayload(criteria);
-    this.totalLoop = criteria.dateTo.diff(criteria.dateFrom, 'seconds'));
+  ngOnInit(): void {
+    let locationSeacher = this.searchTerms
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .switchMap(term => term
+        ? this.searchPlaybackService.search(this.initPayload(term))
+        : Observable.of([]))
 
-    this.searchPlaybackService.search(payload)
-    .subscribe((locations) => {
+    locationSeacher.subscribe(locations => {
+      // console.log(locations);
       this.locationsFromService = locations
-
-      let timer = setInterval(function () {
-        mappingLocationByTime();
-      }, 1000);
-
-      let mappingLocationByTime = () => {
-        console.log(this.countLoop, ":" , this.totalLoop);
-        if(this.countLoop >= this.totalLoop) {
-          clearInterval(timer);
-          return;
-        }
-
-        this.simmulateLocations(criteria);
-        this.countLoop = this.countLoop + 1;
-      }
+      this.onPlay();
     });
 
-    this.seachVideoService.search(payload)
-    .map(videos => {
-      videos.map(video => video.url = `http://gps.gistda.org:1935/vod/mp4:${video.path}/playlist.m3u8?${video.id}`);
-      return videos;
-    })
-    .subscribe((videos) => {
-      this.videos = videos
-    })
+    const pausable = this.isPlay
+      .switchMap(played => played
+        ? this.playback()
+        : Observable.never())
+
+    pausable.subscribe(
+      // (x) => console.log(x, ": count => ", this.countLoop, ": total => ", this.totalLoop)
+    )
+  }
+
+  onSearch(criteria: any) {
+    this.countLoop = 0;
+    this.totalLoop = 0;
+    this.currentCriteria = criteria;
+    this.searchTerms.next(criteria);
+  }
+
+  playback() {
+    return Observable
+        .interval(1000)
+        .takeWhile(() => this.countLoop < this.totalLoop)
+        .map((x) => {
+          this.countLoop = this.countLoop + 1
+          this.simmulateLocations(this.currentCriteria);
+        })
+  }
+
+  onPlay() {
+    this.totalLoop = this.currentCriteria.dateTo.diff(this.currentCriteria.dateFrom, 'seconds'));
+    this.isPlay.next(true);
+    // console.log("play");
+  }
+
+  onPause() {
+    this.isPlay.next(false);
+    // console.log("pause");
   }
 
   onClickviewVideo(video: any) {
@@ -70,14 +103,15 @@ export class PlaybackComponent {
 
   simmulateLocations(criteria: any) {
     let dateFrom = criteria.dateFrom.clone().add(this.countLoop, 's').milliseconds(0)
+    this.simmulationTime = dateFrom;
     let dateTo = criteria.dateFrom.clone().add(this.countLoop + 1, 's').milliseconds(0)
-    console.log(dateFrom.toISOString(), ":", dateTo.toISOString());
+    // console.log(dateFrom.toISOString(), ":", dateTo.toISOString());
     this.mappingLocation(this.findLocationBetweenDate(this.locationsFromService, dateFrom, dateTo));
 
   }
 
   private mappingLocation(data) {
-    console.log(data);
+    // console.log(data);
     data.map(location => {
       if(!this.locations.some((x) => x.uuid == location.uuid)) {
         let newLocation = new Location();

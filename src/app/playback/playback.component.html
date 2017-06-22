@@ -1,11 +1,18 @@
 <app-search-form (payloads)="onSearch($event)"></app-search-form>
 
+<br/>
+<button (click)="onPlay()">play</button>
+<button (click)="onPause()">pause</button>
+
+<br/>
+<div *ngIf="simmulationTime">simmulation time: {{simmulationTime | date: 'medium'}}</div>
+
 <app-map-display *ngIf="locations"
   [locations]="locations"
   [title]="title">
 </app-map-display>
 
-<div>
+<!-- <div>
   <h1>video</h1>
   <ul class="devices">
     <li *ngFor="let video of videos" (click)="onClickviewVideo(video)">
@@ -15,4 +22,4 @@
   </ul>
 
   <app-video-display *ngIf="selectedVideo" [videoUrl]="selectedVideo?.url"></app-video-display>
-</div>
+</div> -->
