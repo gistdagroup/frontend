@@ -2,6 +2,10 @@
   height: 500px;
 }
 
+.space-header {
+  padding-top: 20px
+}
+
 /* devices class */
 .devices {
   margin: 0 0 2em 0;
@@ -48,6 +52,21 @@
   height: 1.8em;
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
+}
+
+.devices .video {
+  display: inline-block;
+  font-size: small;
+  color: white;
+  padding: 0.8em 0.7em 0 0.7em;
+  background-color: #607D8B;
+  line-height: 1em;
+  position: relative;
+  right: -1px;
+  top: -4px;
+  height: 1.8em;
+  border-radius: 0 4px 4px 0;
+  float: right;
 }
 /* everywhere else */
 * {

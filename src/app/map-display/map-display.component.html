@@ -1,10 +1,11 @@
-<div>{{title}}</div>
-
+<div class="space-header"></div>
+<hr/>
 <ul class="devices">
   <li *ngFor="let location of locations" (click)="onSelected(location)"
       [class.selected]="location === selectedLocation">
     <span class="type">{{location.type}}</span>
     <span>{{location.uuid}}</span>
+    <span *ngIf="location.type == 'ANDROID'" class="video">video</span>
   </li>
 </ul>
 
