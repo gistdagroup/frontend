@@ -12,11 +12,7 @@ export class SearchVideoService {
   constructor(private http: Http) { }
 
   search(payload: any): Observable<any> {
-    let filter = {
-      "where": {
-        "createdAt": payload
-      }
-    }
+    let filter = {"where":{"or":[{"createdAt":payload},{"updatedAt":payload}]}}
 
     let token = localStorage.getItem("gistda_token");
     let url = this.searchUrl

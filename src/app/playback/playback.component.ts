@@ -50,12 +50,10 @@ export class PlaybackComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .switchMap(term => term
-        ? this.searchPlaybackService.search(this.initPayload(term))
+        ? this.searchLocationsAndVideos(this.initPayload(term))
         : Observable.of([]))
 
-    locationSeacher.subscribe(locations => {
-      // console.log(locations);
-      this.locationsFromService = locations
+    locationSeacher.subscribe(() => {
       this.onPlay();
     });
 
@@ -64,9 +62,7 @@ export class PlaybackComponent implements OnInit {
         ? this.playback()
         : Observable.never())
 
-    pausable.subscribe(
-      // (x) => console.log(x, ": count => ", this.countLoop, ": total => ", this.totalLoop)
-    )
+    pausable.subscribe()
   }
 
   onSearch(criteria: any) {
@@ -74,6 +70,27 @@ export class PlaybackComponent implements OnInit {
     this.totalLoop = 0;
     this.currentCriteria = criteria;
     this.searchTerms.next(criteria);
+  }
+
+  searchLocationsAndVideos(payload): Observable<any> {
+    const locationsData = this.searchPlaybackService.search(payload)
+    locationsData.subscribe(locations => {
+      console.log(locations;
+      this.locationsFromService = locations
+    })
+
+    const videosData = this.seachVideoService.search(payload)
+      .map(videos => {
+        videos.map(video => video.url = `http://gps.gistda.org:1935/vod/mp4:${video.path}/playlist.m3u8?${video.id}`);
+        return videos;
+      })
+
+      videosData.subscribe(videos => {
+        console.log(videos);
+        this.videos = videos
+      })
+
+    return Observable.of([]);
   }
 
   playback() {
@@ -107,7 +124,15 @@ export class PlaybackComponent implements OnInit {
     let dateTo = criteria.dateFrom.clone().add(this.countLoop + 1, 's').milliseconds(0)
     // console.log(dateFrom.toISOString(), ":", dateTo.toISOString());
     this.mappingLocation(this.findLocationBetweenDate(this.locationsFromService, dateFrom, dateTo));
+    this.mappingVideo()
+  }
 
+  private mappingVideo() {
+    this.videos.map(video => {
+      this.locations.filter(location => location.uuid == video.uuid).map(location => {
+          location.liveUrl = video.url
+      })
+    })
   }
 
   private mappingLocation(data) {
