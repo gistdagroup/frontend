@@ -1,0 +1,28 @@
+.half-div {
+  width: 50%;
+  float: left;
+}
+
+form {
+  padding-top: 20px;
+}
+
+button {
+  margin-top: 20px;
+  font-family: Arial;
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer; cursor: hand;
+}
+button:hover {
+  background-color: #cfd8dc;
+}
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
