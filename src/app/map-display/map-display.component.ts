@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 import { Location } from '../location';
 
 @Component({
@@ -6,7 +6,7 @@ import { Location } from '../location';
   templateUrl: './map-display.component.html',
   styleUrls: ['./map-display.component.scss']
 })
-export class MapDisplayComponent {
+export class MapDisplayComponent implements onChanges {
   @Input() locations = [];
   @Input() title: string = "Map";
 
@@ -17,6 +17,12 @@ export class MapDisplayComponent {
   hasLocation: boolean = false;
   selectedLocation: Location;
   constructor() { }
+
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    if(changes.locations.currentValue.length == 0) {
+      this.selectedLocation = null;
+    }
+  }
 
   onSelected(location: Location) {
     this.selectedLocation = location

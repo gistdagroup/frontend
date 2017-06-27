@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
 declare var videojs:any;
-
 @Component({
   selector: 'app-video-display',
   templateUrl: './video-display.component.html',
@@ -8,6 +7,7 @@ declare var videojs:any;
 })
 export class VideoDisplayComponent implements OnChanges {
   @Input() videoUrl: string;
+  myPlayer: any;
 
   constructor() { }
 
@@ -15,15 +15,24 @@ export class VideoDisplayComponent implements OnChanges {
   }
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    let player = videojs('example-video');
-    let videoUrl = this.videoUrl;
-    player.ready(function() {
-      player.src({
-        src: videoUrl,
+    this.myPlayer = videojs('video-display');
+
+    let initPlayer = () => {
+      this.myPlayer.src({
+        src: this.videoUrl,
         type: 'application/x-mpegURL'
       });
 
-      player.play();
+      this.myPlayer.play();
+    }
+
+    this.myPlayer.ready(function() {
+      initPlayer();
+    });
+  }
+
+  seek() {
+    this.myPlayer.currentTime(30);
   }
 
 }

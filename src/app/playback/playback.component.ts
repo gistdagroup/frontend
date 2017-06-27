@@ -68,6 +68,7 @@ export class PlaybackComponent implements OnInit {
   onSearch(criteria: any) {
     this.countLoop = 0;
     this.totalLoop = 0;
+    this.locations = [];
     this.currentCriteria = criteria;
     this.searchTerms.next(criteria);
   }

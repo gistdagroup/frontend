@@ -9,7 +9,9 @@
   </li>
 </ul>
 
-<app-video-display *ngIf="selectedLocation?.liveUrl" [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
+<div [ngClass]="{'hide': !selectedLocation?.liveUrl}">
+  <app-video-display [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
+</div>
 
 <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
 

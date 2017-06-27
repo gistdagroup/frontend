@@ -16,6 +16,7 @@ export class SearchPlaybackService {
         "date": payload
       }
     }
+
     let token = localStorage.getItem("gistda_token");
     let url = this.searchUrl
         .replace(':{filter}', JSON.stringify(filter))
