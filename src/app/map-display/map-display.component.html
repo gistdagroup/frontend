@@ -1,31 +1,33 @@
-<div class="space-header"></div>
-<hr/>
-<ul class="devices">
-  <li *ngFor="let location of locations" (click)="onSelected(location)"
-      [class.selected]="location === selectedLocation">
-    <span class="type">{{location.type}}</span>
-    <span>{{location.uuid}}</span>
-    <span *ngIf="location.type == 'ANDROID'" class="video">video</span>
-  </li>
-</ul>
+<div class="row">
+  <!--gps location-->
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li *ngFor="let location of locations" (click)="onSelected(location)" class="list-group-item" [class.active]="location === selectedLocation">
+        {{location.type}} | {{location.uuid}}
+        <span *ngIf="location.type == 'ANDROID'" class="badge">video</span>
+      </li>
+    </ul>
+  </div>
 
-<div [ngClass]="{'hide': !selectedLocation?.liveUrl}">
-  <app-video-display [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
+  <!--map-->
+  <div class="col-md-9">
+    <div class="video" [ngClass]="{'hide': !selectedLocation?.liveUrl}">
+      <app-video-display [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
+    </div>
+
+    <div id="map" class="map">
+      <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
+
+        <agm-marker *ngFor="let location of locations" [label]="location?.uuid" [latitude]="location?.coords[location?.coords.length-1].lat"
+          [longitude]="location?.coords[location?.coords.length-1].lng">
+        </agm-marker>
+
+        <agm-polyline *ngFor="let location of locations; let i = index" [strokeColor]="strokeColors[i]">
+          <agm-polyline-point *ngFor="let coord of location?.coords" [latitude]="coord?.lat" [longitude]="coord?.lng">
+          </agm-polyline-point>
+        </agm-polyline>
+
+      </agm-map>
+    </div>
+  </div>
 </div>
-
-<agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom">
-
-    <agm-marker *ngFor="let location of locations"
-      [label]="location?.uuid"
-      [latitude]="location?.coords[location?.coords.length-1].lat"
-      [longitude]="location?.coords[location?.coords.length-1].lng">
-    </agm-marker>
-
-    <agm-polyline *ngFor="let location of locations; let i = index" [strokeColor]="strokeColors[i]">
-       <agm-polyline-point *ngFor="let coord of location?.coords"
-        [latitude]="coord?.lat"
-        [longitude]="coord?.lng">
-       </agm-polyline-point>
-    </agm-polyline>
-
-</agm-map>

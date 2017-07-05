@@ -1,9 +1,22 @@
-<h1>
-  {{title}}
-</h1>
+<div id="wrapper">
 
-<nav>
-    <a *ngIf="token" routerLink="/gmap">Live</a>
-    <a *ngIf="token" routerLink="/playback">Play Back</a>
+  <!--menu-->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <a class="navbar-brand">Gistda</a>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li routerLinkActive="active"><a *ngIf="token" routerLink="/gmap">Live</a></li>
+          <li routerLinkActive="active"><a *ngIf="token" routerLink="/playback">Play Back</a></li>
+        </ul>
+      </div>
+    </div>
   </nav>
-<router-outlet></router-outlet>
+
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
