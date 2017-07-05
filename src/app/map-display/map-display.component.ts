@@ -11,6 +11,7 @@ export class MapDisplayComponent implements onChanges {
   @Input() title: string = "Map";
 
   zoom: number = 15;
+  scaleControl: boolean = true;
   strokeColors = ["#CC33FF", "#451348", "#520101", "#020152", "#013c52", "#01523f", "#245201", "#465201", "#523d01", "#522601"];
   latFirst: number = 13.102387838333334;
   lngFirst: number = 100.92743411000001;
