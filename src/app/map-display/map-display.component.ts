@@ -31,4 +31,20 @@ export class MapDisplayComponent implements onChanges {
     this.lngFirst = location.coords[0].lng
   }
 
+  getLat() {
+    if(this.selectedLocation) {
+      return this.selectedLocation.coords[this.selectedLocation.coords.length - 1].lat
+    } else {
+      return this.latFirst
+    }
+  }
+
+  getLng() {
+    if(this.selectedLocation) {
+      return this.selectedLocation.coords[this.selectedLocation.coords.length - 1].lng
+    } else {
+      return this.lngFirst
+    }
+  }
+
 }

@@ -16,7 +16,7 @@
     </div>
 
     <div id="map" class="map">
-      <agm-map [latitude]="latFirst" [longitude]="lngFirst" [zoom]="zoom" [scaleControl]="scaleControl">
+      <agm-map [latitude]="getLat()" [longitude]="getLng()" [zoom]="zoom" [scaleControl]="scaleControl">
 
         <agm-marker *ngFor="let location of locations" [label]="location?.uuid" [latitude]="location?.coords[location?.coords.length-1].lat"
           [longitude]="location?.coords[location?.coords.length-1].lng">
