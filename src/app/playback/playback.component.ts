@@ -3,8 +3,9 @@ import { Location } from '../location';
 import { SearchPlaybackService } from './search-playback.service';
 import { SearchVideoService } from './search-video.service';
 import * as moment from 'moment';
-import { Observable }           from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/debounceTime';
@@ -20,7 +21,7 @@ import 'rxjs/add/observable/interval';
   styleUrls: ['./playback.component.scss']
 })
 export class PlaybackComponent implements OnInit {
-  title:string = "Playback";
+  title: string = "Playback";
   locations: Location[] = [];
   locationsFromService = [];
   videos = [];
@@ -34,7 +35,8 @@ export class PlaybackComponent implements OnInit {
   currentCriteria: any;
 
   constructor(private searchPlaybackService: SearchPlaybackService,
-    private seachVideoService: SearchVideoService) {}
+    private seachVideoService: SearchVideoService,
+    private router: Router) { }
 
   private initPayload(criteria: any): any {
     return {
@@ -74,45 +76,50 @@ export class PlaybackComponent implements OnInit {
   }
 
   searchLocationsAndVideos(payload): Observable<any> {
-    const locationsData = this.searchPlaybackService.search(payload)
-    locationsData.subscribe(locations => {
-      console.log(locations;
-      this.locationsFromService = locations
-    })
+    this.searchPlaybackService.search(payload)
+      .subscribe(
+        locations => {
+          this.locationsFromService = locations;
+        },
+        error => {
+          localStorage.removeItem("gistda_token");
+          this.router.navigate(['/login']);
+        });
 
-    const videosData = this.seachVideoService.search(payload)
+    this.seachVideoService.search(payload)
       .map(videos => {
         videos.map(video => video.url = `http://gps.gistda.org:1935/vod/mp4:${video.path}/playlist.m3u8?${video.id}`);
         return videos;
       })
-
-      videosData.subscribe(videos => {
-        console.log(videos);
-        this.videos = videos
-      })
+      .subscribe(
+        videos => {
+          this.videos = videos;
+        },
+        error => {
+          localStorage.removeItem("gistda_token");
+          this.router.navigate(['/login']);          
+        });
 
     return Observable.of([]);
   }
 
   playback() {
     return Observable
-        .interval(1000)
-        .takeWhile(() => this.countLoop < this.totalLoop)
-        .map((x) => {
-          this.countLoop = this.countLoop + 1
-          this.simmulateLocations(this.currentCriteria);
-        })
+      .interval(1000)
+      .takeWhile(() => this.countLoop < this.totalLoop)
+      .map((x) => {
+        this.countLoop = this.countLoop + 1
+        this.simmulateLocations(this.currentCriteria);
+      })
   }
 
   onPlay() {
     this.totalLoop = this.currentCriteria.dateTo.diff(this.currentCriteria.dateFrom, 'seconds'));
     this.isPlay.next(true);
-    // console.log("play");
   }
 
   onPause() {
     this.isPlay.next(false);
-    // console.log("pause");
   }
 
   onClickviewVideo(video: any) {
@@ -123,7 +130,6 @@ export class PlaybackComponent implements OnInit {
     let dateFrom = criteria.dateFrom.clone().add(this.countLoop, 's').milliseconds(0)
     this.simmulationTime = dateFrom;
     let dateTo = criteria.dateFrom.clone().add(this.countLoop + 1, 's').milliseconds(0)
-    // console.log(dateFrom.toISOString(), ":", dateTo.toISOString());
     this.mappingLocation(this.findLocationBetweenDate(this.locationsFromService, dateFrom, dateTo));
     this.mappingVideo()
   }
@@ -131,15 +137,14 @@ export class PlaybackComponent implements OnInit {
   private mappingVideo() {
     this.videos.map(video => {
       this.locations.filter(location => location.uuid == video.uuid).map(location => {
-          location.liveUrl = video.url
+        location.liveUrl = video.url
       })
     })
   }
 
   private mappingLocation(data) {
-    // console.log(data);
     data.map(location => {
-      if(!this.locations.some((x) => x.uuid == location.uuid)) {
+      if (!this.locations.some((x) => x.uuid == location.uuid)) {
         let newLocation = new Location();
         newLocation.uuid = location.uuid
         newLocation.type = location.type

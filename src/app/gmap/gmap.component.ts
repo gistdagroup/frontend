@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Location } from '../location';
 
@@ -14,7 +15,8 @@ export class GmapComponent implements OnInit, OnDestroy {
     urlToChangeStream = 'http://gps.gistda.org:8080/api/locations/change-stream?_format=event-source&access_token=';
     locations = [];
     serverConnection: EventSource;
-    constructor() { }
+    
+    constructor(private router: Router) { }
 
     ngOnInit() {
         let url = `${this.urlToChangeStream}${this.token}`;
@@ -50,7 +52,8 @@ export class GmapComponent implements OnInit, OnDestroy {
     }
 
     private handleError(event) {
-      console.error("An error happened on the EventSource: ", event.data);
+      localStorage.removeItem("gistda_token");
+      this.router.navigate(['/login']);
     }
 
     private handleOpen(event) {

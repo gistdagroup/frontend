@@ -11,7 +11,7 @@ export class LoginService {
 
   constructor(private http: Http) { }
 
-  auth(user: User): Promise<string> {
+  login(user: User): Promise<string> {
     return this.http
         .post(this.authUrl, JSON.stringify({email: user.username, password: user.password}), {headers: this.headers})
         .toPromise()
@@ -24,8 +24,11 @@ export class LoginService {
         .catch(this.handleError);
   }
 
+  logout() {
+    localStorage.removeItem("gistda_token");
+  }
+
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
 }

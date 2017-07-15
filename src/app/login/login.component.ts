@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from '../user';
@@ -9,15 +9,23 @@ import { LoginService } from './login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  user:User = new User();
+  user: User = new User();
+  errorMessage: string = "";
 
   constructor(private loginService: LoginService, private router: Router) { }
 
+  ngOnInit() {
+    this.loginService.logout();
+  }
+
   onSubmit() {
-    this.loginService.auth(this.user)
-    .then(() => this.router.navigate(['/gmap']););
+    this.loginService.login(this.user)
+    .then(() => this.router.navigate(['/gmap']))
+    .catch((error) => {
+      this.errorMessage = JSON.parse(error._body).error.message;
+    });
   }
 
 }

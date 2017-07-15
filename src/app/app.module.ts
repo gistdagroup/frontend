@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { GmapModule } from './gmap/gmap.module';
 import { LoginModule } from './login/login.module';
 import { PlaybackModule } from './playback/playback.module';
-import { AppRoutingModule }     from './app-routing/app-routing.module';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { AppComponent } from './app.component';
 
