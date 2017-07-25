@@ -7,6 +7,7 @@ import { GmapModule } from './gmap/gmap.module';
 import { LoginModule } from './login/login.module';
 import { PlaybackModule } from './playback/playback.module';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { DeviceModule } from './device/device.module';
 
 import { AppComponent } from './app.component';
 
@@ -22,7 +23,8 @@ import { AppComponent } from './app.component';
     GmapModule,
     LoginModule,
     PlaybackModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DeviceModule
   ],
   providers: [],
   bootstrap: [AppComponent],

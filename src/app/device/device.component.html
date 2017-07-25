@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-3">
+    <ul class="list-group">
+      <li *ngFor="let device of devices" class="list-group-item" (click)="onSelected(device)">
+        {{device.name}} | {{device.vehicle}}        
+      </li>
+    </ul>
+
+    <button type="button" (click)="addDevice()" class="btn btn-primary">Add</button>
+  </div>
+
+  <div class="col-md-9">
+    <!--<div *ngIf="selectedDevice">
+      {{selectedDevice.name}}
+      {{selectedDevice.vehicle}}
+      {{selectedDevice.id}}
+    </div>-->
+
+     <app-device-form *ngIf="selectedDevice" [device]="selectedDevice"></app-device-form> 
+  </div>
+</div>
