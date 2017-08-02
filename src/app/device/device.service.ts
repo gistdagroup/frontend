@@ -23,7 +23,6 @@ export class DeviceService {
 
   updateDevice(device: Device) {
     const add = () => {
-      console.log("call add", device);
       this.addDevice(device).subscribe();
     };
 

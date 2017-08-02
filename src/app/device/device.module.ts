@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DeviceComponent } from './device.component';
 import { DeviceService } from './device.service';
-import { DeviceFormComponent } from './device-form/device-form.component';
 
 @NgModule({
   imports: [
@@ -12,7 +11,7 @@ import { DeviceFormComponent } from './device-form/device-form.component';
     HttpModule,
     FormsModule,
   ],
-  declarations: [DeviceComponent, DeviceFormComponent],
+  declarations: [DeviceComponent],
   providers: [DeviceService],
   exports: [
     DeviceComponent
