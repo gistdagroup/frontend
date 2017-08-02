@@ -1,7 +1,7 @@
 import { DeviceService } from '../device.service';
 import { Device } from '../device';
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-device-form',
@@ -11,11 +11,17 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DeviceFormComponent implements OnInit {
   @Input() device: Device;
   errorMessage: string = "";
+  successMessage: string = "";
 
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
     // this.loginService.logout();
+  }
+
+  ngOnChanges(change: any) {
+    this.errorMessage = "";
+    this.successMessage = "";
   }
 
   onSubmit() {
@@ -28,7 +34,9 @@ export class DeviceFormComponent implements OnInit {
   }
 
   onDelete() {
-    this.deviceService.deleteDevice(this.device).subscribe();
+    this.deviceService.deleteDevice(this.device).subscribe(() => {
+      this.successMessage = "Delete Completed";
+    });
   }
 
 }

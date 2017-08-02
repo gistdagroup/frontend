@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Rx';
 import { DeviceService } from './device.service';
 import { Device } from './device';
 import { Component, OnInit } from '@angular/core';
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./device.component.scss']
 })
 export class DeviceComponent implements OnInit {
-  devices = [];
+  devices: Subject<Device[]>;
   selectedDevice = null;
 
   constructor(private deviceService: DeviceService) { }
