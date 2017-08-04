@@ -1,3 +1,4 @@
+import { UserComponent } from '../user/user.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'gmap', component: GmapComponent, canActivate: [AuthGuard] },
   { path: 'playback', component: PlaybackComponent, canActivate: [AuthGuard] },
   { path: 'devices', component: DeviceComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login'}
 ];
 

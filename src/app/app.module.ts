@@ -1,3 +1,4 @@
+import { UserModule } from './user/user.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +25,8 @@ import { AppComponent } from './app.component';
     LoginModule,
     PlaybackModule,
     AppRoutingModule,
-    DeviceModule
+    DeviceModule,
+    UserModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
