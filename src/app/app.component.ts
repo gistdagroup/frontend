@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     title = 'Gistda Map!';
-    token = localStorage.getItem("gistda_token");
     constructor() { }
 }

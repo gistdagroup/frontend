@@ -14,11 +14,19 @@ export class UserComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   isAdd: boolean = false;
+  isAuthorized: boolean = true;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.list().subscribe(users => this.users = users);
+    this.userService.list()
+      .subscribe(
+        (users) => {this.users = users}, 
+        (error) => {
+          this.isAuthorized = false;
+          this.errorMessage = `${error.json().error.message}: Admin Only`;
+        }
+      );
   }
 
   onAdd() {
