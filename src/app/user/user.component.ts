@@ -46,4 +46,8 @@ export class UserComponent implements OnInit {
     }
   }
 
+  isNotAdmin(user) {
+    return user.email != "admin@gistda.org"
+  }
+
 }
