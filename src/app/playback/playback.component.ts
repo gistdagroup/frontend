@@ -86,13 +86,10 @@ export class PlaybackComponent implements OnInit {
           this.router.navigate(['/login']);
         });
 
-    this.seachVideoService.search(payload)
-      .map(videos => {
-        videos.map(video => video.url = `http://gps.gistda.org:1935/vod/mp4:${video.path}/playlist.m3u8?${video.id}`);
-        return videos;
-      })
+    this.seachVideoService.search(payload)      
       .subscribe(
         videos => {
+          console.log(videos);
           this.videos = videos;
         },
         error => {
