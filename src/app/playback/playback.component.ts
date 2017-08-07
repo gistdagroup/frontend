@@ -153,6 +153,10 @@ export class PlaybackComponent implements OnInit {
   }
 
   private mappingLocation(data) {
+    this.locations = this.locations.filter(location => {
+      data.map(lo => lo.uuid == location.uuid);
+    });
+
     data.map(location => {
       if (!this.locations.some((x) => x.uuid == location.uuid)) {
         let newLocation = new Location();
