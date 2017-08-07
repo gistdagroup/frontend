@@ -89,7 +89,6 @@ export class PlaybackComponent implements OnInit {
     this.seachVideoService.search(payload)      
       .subscribe(
         videos => {
-          console.log(videos);
           this.videos = videos;
         },
         error => {
@@ -128,7 +127,8 @@ export class PlaybackComponent implements OnInit {
     this.simmulationTime = dateFrom;
     let dateTo = criteria.dateFrom.clone().add(this.countLoop + 1, 's').milliseconds(0)
     this.mappingLocation(this.findLocationBetweenDate(this.locationsFromService, dateFrom, dateTo));
-    this.mappingVideo()
+    // this.mappingVideo(this.findVideoBetweenDate(this.videos, dateFrom, dateTo));
+    this.mappingVideo();
   }
 
   private mappingVideo() {
@@ -137,6 +137,19 @@ export class PlaybackComponent implements OnInit {
         location.liveUrl = video.url
       })
     })
+  }
+
+  // private mappingVideo(data) {
+  //   console.log("video data:", data);
+  //   data.map(video => {
+  //     this.locations.filter(location => location.uuid == video.uuid).map(location => {
+  //       location.liveUrl = video.url
+  //     })
+  //   })
+  // }
+
+  isShowVideo(location: Location) {
+    return location.liveUrl ? true : false;
   }
 
   private mappingLocation(data) {
@@ -156,7 +169,15 @@ export class PlaybackComponent implements OnInit {
   }
 
   private findLocationBetweenDate = (data, start, end) => {
-    return data.filter(location => moment(location.date).isBetween(start, end, null, '[]'))
+    return data.filter(location =>  moment(location.date).isBetween(start, end, null, '[]'));
+  }
+
+  private findVideoBetweenDate = (data, start, end) => {
+    console.log(data);
+    return data.filter(video => {
+      console.log("createat", moment(video.createdAt), moment(start), moment(end));
+      return moment(video.createdAt).isBetween(start, end, null, '[]')
+    })
   }
 
 }

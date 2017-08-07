@@ -47,4 +47,12 @@ export class MapDisplayComponent implements onChanges {
     }
   }
 
+  isShowVideo() {
+    if(this.selectedLocation) {
+      return this.selectedLocation.liveUrl ? true : false;
+    }
+
+    return false;
+  }
+
 }

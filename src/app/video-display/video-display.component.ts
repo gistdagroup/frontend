@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 declare var videojs:any;
 @Component({
   selector: 'app-video-display',
@@ -33,6 +33,10 @@ export class VideoDisplayComponent implements OnChanges {
 
   seek() {
     this.myPlayer.currentTime(30);
+  }
+
+  ngOnDestroy() {
+    this.myPlayer.dispose();
   }
 
 }

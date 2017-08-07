@@ -11,9 +11,9 @@
 
   <!--map-->
   <div class="col-md-9">
-    <div class="video" [ngClass]="{'hide': !selectedLocation?.liveUrl}">
-      <app-video-display [videoUrl]="selectedLocation?.liveUrl"></app-video-display>
-    </div>
+    <div class="video">
+       <app-video-display *ngIf="isShowVideo()" [videoUrl]="selectedLocation?.liveUrl"></app-video-display> 
+     </div> 
 
     <div id="map" class="map">
       <agm-map [latitude]="getLat()" [longitude]="getLng()" [zoom]="zoom" [scaleControl]="scaleControl">
